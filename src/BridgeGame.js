@@ -1,11 +1,15 @@
+const { MOVE_RESULT } = require('./constants/Constant');
+
 /**
  * 다리 건너기 게임을 관리하는 클래스
  */
 class BridgeGame {
   #bridge;
+  #moveLog;
 
   constructor(bridge) {
     this.#bridge = bridge;
+    this.#moveLog = [];
   }
 
   /**
@@ -13,7 +17,16 @@ class BridgeGame {
    * <p>
    * 이동을 위해 필요한 메서드의 반환 값(return value), 인자(parameter)는 자유롭게 추가하거나 변경할 수 있다.
    */
-  move() {}
+  move(direction) {
+    this.#moveLog.push(this.getMoveResult(direction));
+  }
+
+  getMoveResult(direction) {
+    if (direction === this.#bridge[this.#moveLog.length]) {
+      return direction === 'U' ? MOVE_RESULT.UP_SUCCESSFUL : MOVE_RESULT.DOWN_SUCCESSFUL;
+    }
+    return direction === 'U' ? MOVE_RESULT.UP_FAILED : MOVE_RESULT.DOWN_FAILED;
+  }
 
   /**
    * 사용자가 게임을 다시 시도할 때 사용하는 메서드

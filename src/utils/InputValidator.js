@@ -9,6 +9,12 @@ const InputValidator = Object.freeze({
       throw new Error(ERROR_MSG.BRIDGE_SIZE_RANGE);
     }
   },
+
+  moving(direction) {
+    if (['U', 'D'].includes(direction) === false) {
+      throw new Error(ERROR_MSG.INVALID_DIRECTION);
+    }
+  },
 });
 
 module.exports = InputValidator;

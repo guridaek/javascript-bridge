@@ -13,6 +13,12 @@ class BridgeGameController {
       this.#bridgeGame = new BridgeGame(makeBridge(+size, BridgeRandomNumberGenerator.generate));
     });
   }
+
+  proceedRound() {
+    InputView.readMoving(direction => {
+      this.#bridgeGame.move(direction);
+    });
+  }
 }
 
 module.exports = BridgeGameController;
