@@ -15,6 +15,12 @@ const InputValidator = Object.freeze({
       throw new Error(ERROR_MSG.INVALID_DIRECTION);
     }
   },
+
+  gameCommand(cmd) {
+    if (['R', 'Q'].includes(cmd) === false) {
+      throw new Error(ERROR_MSG.INVALID_GAME_COMMAND);
+    }
+  },
 });
 
 module.exports = InputValidator;

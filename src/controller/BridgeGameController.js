@@ -23,8 +23,24 @@ class BridgeGameController {
     });
     OutputView.printMap(this.#bridgeGame.getMap());
 
-    if (this.#bridgeGame.getGameState() === GAME_STATE.ONGOING) this.proceedRound();
+    const state = this.#bridgeGame.getGameState();
+    if (state === GAME_STATE.ONGOING) this.proceedRound();
+    if (state === GAME_STATE.FAILED) this.askRetry();
+    if (state === GAME_STATE.SUCCEEDED) this.printResult();
   }
+
+  askRetry() {
+    InputView.readGameCommand(cmd => {
+      if (cmd === 'R') {
+        this.#bridgeGame.retry();
+        this.proceedRound();
+      } else if (cmd === 'Q') {
+        this.printResult();
+      }
+    });
+  }
+
+  printResult() {}
 }
 
 module.exports = BridgeGameController;

@@ -33,7 +33,14 @@ const InputView = {
   /**
    * 사용자가 게임을 다시 시도할지 종료할지 여부를 입력받는다.
    */
-  readGameCommand() {},
+  readGameCommand(callback) {
+    try {
+      this.getUserInput(callback, QUERY.GAME_COMMAND, InputValidator.gameCommand);
+    } catch (err) {
+      Console.print(err.message);
+      this.readGameCommand(callback);
+    }
+  },
 
   getUserInput(callback, query, validator) {
     Console.readLine(query, input => {
