@@ -1,3 +1,4 @@
+const { Console } = require('@woowacourse/mission-utils');
 const BridgeGame = require('../BridgeGame');
 const { makeBridge } = require('../BridgeMaker');
 const { GAME_STATE } = require('../constants/Constant');
@@ -14,7 +15,7 @@ class BridgeGameController {
       this.#bridgeGame = new BridgeGame(makeBridge(+size, BridgeRandomNumberGenerator.generate));
     });
 
-    this.proceedRound();
+    if (this.#bridgeGame) this.proceedRound();
   }
 
   proceedRound() {
@@ -40,7 +41,15 @@ class BridgeGameController {
     });
   }
 
-  printResult() {}
+  printResult() {
+    OutputView.printResult(
+      this.#bridgeGame.getMap(),
+      this.#bridgeGame.getTryCount(),
+      this.#bridgeGame.getGameState(),
+    );
+
+    Console.close();
+  }
 }
 
 module.exports = BridgeGameController;
