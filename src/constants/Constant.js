@@ -1,8 +1,12 @@
-const MOVE_RESULT = Object.freeze({
-  UP_SUCCESSFUL: 0,
-  UP_FAILED: 1,
-  DOWN_SUCCESSFUL: 2,
-  DOWN_FAILED: 3,
+const BRIDEGE_LINE = Object.freeze({
+  0: 'U',
+  1: 'D',
 });
 
-module.exports = { MOVE_RESULT };
+const GAME_STATE = Object.freeze({
+  ONGOING: 0,
+  SUCCEEDED: 1,
+  FAILED: 2,
+});
+
+module.exports = { BRIDEGE_LINE, GAME_STATE };

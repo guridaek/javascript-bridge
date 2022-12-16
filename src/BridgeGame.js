@@ -1,15 +1,15 @@
-const { MOVE_RESULT } = require('./constants/Constant');
+const { GAME_STATE } = require('./constants/Constant');
 
 /**
  * 다리 건너기 게임을 관리하는 클래스
  */
 class BridgeGame {
   #bridge;
-  #moveLog;
+  #map;
 
   constructor(bridge) {
     this.#bridge = bridge;
-    this.#moveLog = [];
+    this.#map = [[], []];
   }
 
   /**
@@ -18,14 +18,38 @@ class BridgeGame {
    * 이동을 위해 필요한 메서드의 반환 값(return value), 인자(parameter)는 자유롭게 추가하거나 변경할 수 있다.
    */
   move(direction) {
-    this.#moveLog.push(this.getMoveResult(direction));
+    this.#map.forEach((line, idx) => {
+      if (direction !== this.mapIndexToDirection(idx)) line.push(' ');
+      else if (direction === this.#bridge[line.length]) line.push('O');
+      else line.push('X');
+    });
   }
 
-  getMoveResult(direction) {
-    if (direction === this.#bridge[this.#moveLog.length]) {
-      return direction === 'U' ? MOVE_RESULT.UP_SUCCESSFUL : MOVE_RESULT.DOWN_SUCCESSFUL;
+  mapIndexToDirection(idx) {
+    switch (idx) {
+      case 0:
+        return 'U';
+      case 1:
+        return 'D';
+      default:
+        return -1;
     }
-    return direction === 'U' ? MOVE_RESULT.UP_FAILED : MOVE_RESULT.DOWN_FAILED;
+  }
+
+  getGameState() {
+    let state =
+      this.#map[0].length === this.#bridge.length ? GAME_STATE.SUCCEEDED : GAME_STATE.ONGOING;
+    this.#map.forEach(line => {
+      if (line.includes('X')) {
+        state = GAME_STATE.FAILED;
+      }
+    });
+
+    return state;
+  }
+
+  getMap() {
+    return this.#map;
   }
 
   /**
